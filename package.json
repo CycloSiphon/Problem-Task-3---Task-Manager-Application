@@ -36,6 +36,7 @@
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-inject-live-reload": "^2.1.0",
+    "ember-cli-postcss": "^7.0.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-data": "~3.28.0",
@@ -66,5 +67,12 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.3.7",
+    "postcss": "^8.3.6",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "^6.2.0",
+    "tailwindcss": "^2.2.16"
   }
 }
