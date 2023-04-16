@@ -12,13 +12,9 @@ Template: tasks.hbs is the Handlebars template that defines the structure and la
 
 Here is a brief overview of the implemented code:
 
-TasksRoute:
-
 model(): Loads tasks data from the local storage and returns it as an array.
 setupController(): Sets up the controller and adds an observer to the model to keep the tasks list updated whenever the local storage changes.
-TasksController:
-
-newTaskTitle, newTaskDescription, editingTaskId: Variables to store the input values for new tasks and the ID of the task being edited.
+TasksController:newTaskTitle, newTaskDescription, editingTaskId: Variables to store the input values for new tasks and the ID of the task being edited.
 tasks: A computed property that returns the tasks list from the local storage. It depends on the model.[] and will recompute whenever the model changes.
 Actions:
 addTask(): Adds a new task to the tasks list and updates the local storage.
