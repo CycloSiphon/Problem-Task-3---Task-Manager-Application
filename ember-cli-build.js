@@ -2,7 +2,7 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     postcssOptions: {
       compile: {
@@ -11,13 +11,13 @@ module.exports = function(defaults) {
           {
             module: require('postcss-import'),
             options: {
-              path: ['node_modules']
-            }
+              path: ['node_modules'],
+            },
           },
           require('tailwindcss')('./app/tailwind/config.js'),
-          require('autoprefixer')
-        ]
-      }
+          require('autoprefixer'),
+        ],
+      },
     },
     'ember-cli-postcss': {
       compile: {
@@ -25,13 +25,13 @@ module.exports = function(defaults) {
           {
             module: require('tailwindcss'),
             options: {
-              config: './app/tailwind/config.js'
-            }
+              config: './app/tailwind/config.js',
+            },
           },
-          require('autoprefixer')
-        ]
-      }
-    }
+          require('autoprefixer'),
+        ],
+      },
+    },
   });
 
   return app.toTree();

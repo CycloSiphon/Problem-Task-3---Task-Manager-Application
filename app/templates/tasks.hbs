@@ -1,0 +1,27 @@
+<div class="container mx-auto mt-4">
+  <h1 class="text-4xl mb-4">Task Manager</h1>
+
+  <form {{on "submit" this.handleSubmit}}>
+    <input id="title" type="text" value={{this.newTaskTitle}} {{on "input" this.updateNewTaskTitle}} class="w-full border border-gray-300 p-2 rounded mb-4" />
+    <textarea id="description" value={{this.newTaskDescription}} {{on "input" this.updateNewTaskDescription}} class="w-full border border-gray-300 p-2 rounded mb-4"></textarea>
+    <button type="submit" class="bg-blue-500 text-white p-2 rounded">{{if this.editingTaskId "Update" "Add"}}</button>
+  </form>
+
+  <ul class="mt-8">
+    {{#each this.model as |task|}}
+      <li class="border-b border-gray-300 py-2">
+        <div class="flex items-center">
+          <input type="checkbox" checked={{task.completed}} {{on "change" (fn this.toggleTaskCompletion task)}} class="mr-4">
+          <span class="{{if task.completed "line-through text-gray-400"}}">{{task.title}}</span>
+        </div>
+        <div class="ml-8 mt-1">
+          <p class="{{if task.completed "line-through text-gray-400"}}">{{task.description}}</p>
+        </div>
+        <div class="ml-auto">
+          <button {{on "click" (fn this.editTask task)}} class="bg-yellow-500 text-white p-2 rounded mr-2">Edit</button>
+          <button {{on "click" (fn this.deleteTask task)}} class="bg-red-500 text-white p-2 rounded">Delete</button>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+</div>
