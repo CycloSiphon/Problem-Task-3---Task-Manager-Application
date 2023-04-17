@@ -1,10 +1,11 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 
 export default class TasksController extends Controller {
   newTaskTitle = '';
   newTaskDescription = '';
-  
+  errorMessage = '';
+
   @action
   handleSubmit(event) {
     event.preventDefault();
@@ -17,9 +18,11 @@ export default class TasksController extends Controller {
 
   @action
   addTask() {
-    if (!this.newTaskTitle.trim()) {
+    if (!this.newTaskTitle.trim() || !this.newTaskDescription.trim()) {
+      this.set('errorMessage', 'Please enter both task title and description before adding a task.');
       return;
     }
+    this.set('errorMessage', '');
     const newTask = {
       id: Date.now(),
       title: this.newTaskTitle,
@@ -35,7 +38,7 @@ export default class TasksController extends Controller {
 
   @action
   updateTask() {
-    if (!this.newTaskTitle.trim()) {
+    if (!this.newTaskTitle.trim() || !this.newTaskDescription.trim()) {
       return;
     }
     const taskToUpdate = this.model.find((task) => task.id === this.editingTaskId);
@@ -55,6 +58,11 @@ export default class TasksController extends Controller {
     this.updateTasksInLocalStorage();
   }
 
+  @computed('editingTaskId')
+  get isEditing() {
+    return this.editingTaskId !== null;
+  }
+
   @action
   editTask(task) {
     this.set('newTaskTitle', task.title);
@@ -64,6 +72,11 @@ export default class TasksController extends Controller {
 
   @action
   deleteTask(taskToDelete) {
+    if (this.isEditing) {
+      this.set('errorMessage', 'Please update the task before deleting it.');
+      return;
+    }
+    this.set('errorMessage', '');
     const tasks = this.model.filter((task) => task.id !== taskToDelete.id);
     localStorage.setItem('tasks', JSON.stringify(tasks));
     this.set('model', tasks);
@@ -82,5 +95,5 @@ export default class TasksController extends Controller {
   updateTasksInLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(this.model));
   }
-  
+
 }

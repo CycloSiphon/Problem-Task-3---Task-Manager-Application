@@ -15,6 +15,10 @@
       "Add"}}</button>
   </form>
 
+  {{#if this.errorMessage}}
+  <div class="text-center text-red-500 mt-4">{{this.errorMessage}}</div>
+  {{/if}}
+
   <ul class="mt-8 divide-y divide-gray-200">
     {{#each this.model as |task|}}
     <li class="py-4">
