@@ -41,16 +41,23 @@ export default class TasksController extends Controller {
     if (!this.newTaskTitle.trim() || !this.newTaskDescription.trim()) {
       return;
     }
-    const taskToUpdate = this.model.find((task) => task.id === this.editingTaskId);
-    if (taskToUpdate) {
-      taskToUpdate.title = this.newTaskTitle;
-      taskToUpdate.description = this.newTaskDescription;
-      this.updateTasksInLocalStorage();
-      this.set('editingTaskId', null);
-      this.set('newTaskTitle', '');
-      this.set('newTaskDescription', '');
-    }
+    const updatedTasks = this.model.map((task) => {
+      if (task.id === this.editingTaskId) {
+        return {
+          ...task,
+          title: this.newTaskTitle,
+          description: this.newTaskDescription,
+        };
+      }
+      return task;
+    });
+    this.set('model', updatedTasks);
+    this.updateTasksInLocalStorage();
+    this.set('editingTaskId', null);
+    this.set('newTaskTitle', '');
+    this.set('newTaskDescription', '');
   }
+
 
   @action
   toggleTaskCompletion(task) {
