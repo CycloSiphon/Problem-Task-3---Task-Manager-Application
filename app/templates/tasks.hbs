@@ -1,27 +1,42 @@
-<div class="container mx-auto mt-4">
-  <h1 class="text-4xl mb-4">Task Manager</h1>
-
-  <form {{on "submit" this.handleSubmit}}>
-    <input id="title" type="text" value={{this.newTaskTitle}} {{on "input" this.updateNewTaskTitle}} class="w-full border border-gray-300 p-2 rounded mb-4" />
-    <textarea id="description" value={{this.newTaskDescription}} {{on "input" this.updateNewTaskDescription}} class="w-full border border-gray-300 p-2 rounded mb-4"></textarea>
-    <button type="submit" class="bg-blue-500 text-white p-2 rounded">{{if this.editingTaskId "Update" "Add"}}</button>
+<div class="container mx-auto mt-4 px-4">
+  <form {{on "submit" this.handleSubmit}} class="space-y-4">
+    <div class="text-center">
+      <label for="title" class="block text-sm font-medium">Title</label>
+      <input id="title" type="text" maxlength="100" placeholder="Enter task title" value={{this.newTaskTitle}}
+        {{on "input" this.updateNewTaskTitle}} class="w-full max-w-md mx-auto border border-gray-300 p-2 rounded" />
+    </div>
+    <div class="text-center">
+      <label for="description" class="block text-sm font-medium">Description</label>
+      <textarea id="description" maxlength="500" placeholder="Enter task description" value={{this.newTaskDescription}}
+        {{on "input" this.updateNewTaskDescription}}
+        class="w-full max-w-md mx-auto border border-gray-300 p-2 rounded"></textarea>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white p-2 rounded mx-auto block">{{if this.editingTaskId "Update"
+      "Add"}}</button>
   </form>
 
-  <ul class="mt-8">
+  <ul class="mt-8 divide-y divide-gray-200">
     {{#each this.model as |task|}}
-      <li class="border-b border-gray-300 py-2">
-        <div class="flex items-center">
-          <input type="checkbox" checked={{task.completed}} {{on "change" (fn this.toggleTaskCompletion task)}} class="mr-4">
-          <span class="{{if task.completed "line-through text-gray-400"}}">{{task.title}}</span>
+    <li class="py-4">
+      <div class="flex items-center justify-center">
+        <label class="inline-flex items-center">
+          <input type="checkbox" checked={{task.completed}} {{on "change" (fn this.toggleTaskCompletion task)}}
+            class="form-checkbox text-blue-500 h-6 w-6 rounded" />
+        </label>
+        <div class="w-1/2 text-center px-4">
+          <span class="block break-words max-w-full {{if task.completed " line-through
+            text-gray-400"}}">{{task.title}}</span>
+          <p class="mt-1 break-words max-w-full {{if task.completed " line-through text-gray-400"}}">
+            {{task.description}}</p>
         </div>
-        <div class="ml-8 mt-1">
-          <p class="{{if task.completed "line-through text-gray-400"}}">{{task.description}}</p>
+        <div class="flex items-center space-x-2">
+          <button {{on "click" (fn this.editTask task)}}
+            class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded">Edit</button>
+          <button {{on "click" (fn this.deleteTask task)}}
+            class="text-sm bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
         </div>
-        <div class="ml-auto">
-          <button {{on "click" (fn this.editTask task)}} class="bg-yellow-500 text-white p-2 rounded mr-2">Edit</button>
-          <button {{on "click" (fn this.deleteTask task)}} class="bg-red-500 text-white p-2 rounded">Delete</button>
-        </div>
-      </li>
+      </div>
+    </li>
     {{/each}}
   </ul>
 </div>

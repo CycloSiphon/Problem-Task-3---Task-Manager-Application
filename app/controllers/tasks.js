@@ -82,4 +82,5 @@ export default class TasksController extends Controller {
   updateTasksInLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(this.model));
   }
+  
 }
